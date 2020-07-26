@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:tijolos/bricks_build.dart';
 
 void main() {
@@ -30,9 +31,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final BricksBuild _bricksBuild = BricksBuild();
+
+  _playBricks() {
+    _bricksBuild.play();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BricksBuild();
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Tijolos musicais"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: _bricksBuild,
+      ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _playBricks,
+          tooltip: 'Tocar',
+          child: Icon(Icons.play_arrow),
+        )
+    );
   }
 }
 
@@ -52,24 +72,27 @@ class _MyHomePageState2 extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _playBricks,
         tooltip: 'Tocar',
         child: Icon(Icons.play_arrow),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
