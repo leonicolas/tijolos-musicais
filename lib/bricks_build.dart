@@ -29,6 +29,7 @@ class BricksBuildState extends State<BricksBuild> {
   ];
 
   bool _playing = false;
+  int _column = 0;
 
   @override
   initState() {
@@ -38,12 +39,15 @@ class BricksBuildState extends State<BricksBuild> {
 
   Future<bool> play() {
     setState(() {
+      _column = -1;
       _playing = true;
     });
 
-    int count = 0;
     return Future.doWhile(() async {
-      _play(count++);
+      setState(() {
+        _column++;
+      });
+      _play(_column);
       await Future.delayed(const Duration(milliseconds: 500));
       return _playing;
     });
@@ -55,11 +59,17 @@ class BricksBuildState extends State<BricksBuild> {
     });
   }
 
-  Future _play(index) async {
+  Future _play(int index) async {
     return widget.player.play(
       _soundList[index % 4],
       stayAwake: true
     );
+  }
+
+  Color _getColor(int index) {
+    return _playing && index % 4 == _column % 4
+      ? Colors.yellow.shade300
+      : Colors.red.shade300;
   }
 
   @override
@@ -71,7 +81,7 @@ class BricksBuildState extends State<BricksBuild> {
           child: Padding(
             padding: const EdgeInsets.all(2.0),
             child: FlatButton(
-              color: Colors.red.shade300,
+              color: _getColor(index),
               child: new Text('$index'),
               onPressed: () => _play(index),
             ),
