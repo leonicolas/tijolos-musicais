@@ -46,8 +46,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/bell_ring.mp3
-    - assets/cow.mp3
     - assets/bass_drum.mp3
     - assets/floor_tom.mp3
     - assets/hi_hat_closed.mp3
