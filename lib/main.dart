@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Tijolos musicais $_playing"),
+        title: new Text("Tijolos musicais"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(2.0),
