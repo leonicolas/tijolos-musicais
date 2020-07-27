@@ -32,67 +32,54 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final BricksBuild _bricksBuild = BricksBuild();
+  final iconStop = Icon(Icons.stop);
+  final iconPlay = Icon(Icons.play_arrow);
+  Widget _icon;
+  bool _playing;
 
-  _playBricks() {
-    _bricksBuild.play();
+  @override
+  void initState() {
+    super.initState();
+    _icon = iconPlay;
+    _playing = false;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _icon = iconPlay;
+    _playing = false;
   }
 
   @override
   Widget build(BuildContext context) {
+    _playBricks() async {
+      setState(() {
+        _icon = iconStop;
+        _playing = true;
+      });
+      await _bricksBuild.play();
+      await new Future.delayed(const Duration(seconds : 2));
+      setState(() {
+        _icon = iconPlay;
+        _playing = false;
+      });
+    }
+
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Tijolos musicais"),
+        title: new Text("Tijolos musicais $_playing"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(2.0),
         child: _bricksBuild,
       ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _playBricks,
-          tooltip: 'Tocar',
-          child: Icon(Icons.play_arrow),
-        )
-    );
-  }
-}
-
-class _MyHomePageState2 extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _playBricks() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _playBricks,
         tooltip: 'Tocar',
-        child: Icon(Icons.play_arrow),
-      ),
+        child: _icon,
+      )
     );
   }
 }
+
