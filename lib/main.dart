@@ -51,20 +51,27 @@ class _MyHomePageState extends State<MyHomePage> {
     _playing = false;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    _playBricks() async {
-      setState(() {
-        _icon = iconStop;
-        _playing = true;
-      });
-      await _bricksBuild.play();
-      await new Future.delayed(const Duration(seconds : 2));
+  _playBricks() async {
+    if(_playing) {
+      print('It will stop!!!');
+      _bricksBuild.stop();
       setState(() {
         _icon = iconPlay;
         _playing = false;
       });
+
+    } else {
+      print('It will play!!!');
+      setState(() {
+        _icon = iconStop;
+        _playing = true;
+      });
+      _bricksBuild.play();
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return new Scaffold(
       appBar: new AppBar(
